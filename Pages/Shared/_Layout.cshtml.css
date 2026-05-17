@@ -1,0 +1,22 @@
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+.border-top {
+  border-top: 1px solid #e2e8f0 !important;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.box-shadow {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}

@@ -1,0 +1,40 @@
+@page
+@model Portafolio.Pages.UsersPages.CreateModel
+@using Portafolio.Models;
+
+<div class="container">
+
+    <p>Creacion de Nuevo Usuario</p>
+
+    <form method="post">
+
+        <div class="form-group">
+            <label asp-for="NewUser.Name">Nombre</label>
+            <input asp-for="NewUser.Name" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NewUser.CompanyName">Empresa</label>
+            <input asp-for="NewUser.CompanyName" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NewUser.PhoneNumber">Numero</label>
+            <input asp-for="NewUser.PhoneNumber" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NewUser.Email">Correo</label>
+            <input asp-for="NewUser.Email" class="form-control"/>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NewUser.Role">Rol</label>
+            <select asp-for="NewUser.Role" asp-items= "Html.GetEnumSelectList<Roles>()" class="form-control" ></select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Crear Usuario</button>
+
+    </form>
+
+</div>

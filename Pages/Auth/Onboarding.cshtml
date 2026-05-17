@@ -1,0 +1,64 @@
+@page "{token}"
+@using Portafolio.Models
+@model Portafolio.Pages.Auth.Onboarding
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html class="h-full bg-gray-900" lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Portafolio</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="h-full">
+<div class="login-container">
+    @if (Model.InviteToken != null && Model.InviteToken.ExpiresAt > DateTime.UtcNow)
+    {
+        <div class="container">
+
+            <h1>Completar Datos del Usuario</h1>
+
+            <form method="post" asp-route-token="@Model.InviteToken.Token">
+
+                <div class="form-group">
+                    <label asp-for="UsuarioOnboarding.Name">Nombre</label>
+                    <input asp-for="UsuarioOnboarding.Name" type="text" class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="UsuarioOnboarding.CompanyName">Empresa</label>
+                    <input asp-for="UsuarioOnboarding.CompanyName" type="text" class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="UsuarioOnboarding.PhoneNumber">Telefono</label>
+                    <input asp-for="UsuarioOnboarding.PhoneNumber" type="number" class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password">Contrasena</label>
+                    <input asp-for="Password" type="password" class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword">Confirmar Contrasena</label>
+                    <input asp-for="ConfirmPassword" type="password" class="form-control"/>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div class="container"><h1>Token Invalido o Expirado</h1></div>
+    }
+   
+</div>
+</body>
+</html>

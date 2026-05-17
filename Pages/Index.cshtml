@@ -1,0 +1,62 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="container-fluid">
+    <img src="./assets/squirtle.png" class="img-thumbnail" alt="Brian Adrian Dorantes">
+    <section>
+        <p>Sobre mi:</p>
+        <p>Mi nombre es Brian Adrian Dorantes Salazar, soy Ing. en Tecnologia de Software , hice este pequeno portafolio para mostrar algunos de mis trabajos</p><br/>
+        <p>Pasatiempos/Hobbies:</p>
+        <div class="d-flex flex-column bd-highlight mb-3">
+            <div class="p-2 bd-highlight">
+                <p>Jugar Videojuegos,Algunos de mis favoritos:</p>
+                <ul class="list-group list-group-flush list-group-numbered">
+                    <li class="list-group-item">Minecraft</li>
+                    <li class="list-group-item">No Man's Sky</li>
+                    <li class="list-group-item">Stardew Valley</li>
+                    <li class="list-group-item">Assassins Creed</li>
+                    <li class="list-group-item">Expedition 33</li>
+                </ul>
+            </div>
+            <p>Lenguajes de Programacion:</p>
+            <div class="p-2 bd-highlight">
+                <p>Ordenados de mi favorito al que menos me gusta</p>
+                <ul class="list-group list-group-flush list-group-numbered">
+                    <li class="list-group-item">Javascript/Typescript (Tanto FrontEnd como Back End)</li>
+                    <li class="list-group-item">Python (Analisis de datos y Apis con Flask y Fastapi)</li>
+                    <li class="list-group-item">R (Analisis de datos)</li>
+                    <li class="list-group-item">PHP (Laravel)</li>
+                    <li class="list-group-item">LUA (LOVE) </li>
+                    <li class="list-group-item">C# (Este portafolio esta hecho con razor,entity framework y desplegado en azure)</li>
+                    <li class="list-group-item">Kotlin (Bases de desarrollo Movil y ktor)</li>
+                </ul>
+            </div>
+            <div class="p-2 bd-highlight">Certificaciones:</div>
+        </div>
+       
+        <p>Algunos de mis proyectos</p>
+        <div class="card" style="width: 40rem;">
+            <div class="card-body">
+                <h5 class="card-title">Zyphur</h5>
+                <p class="card-text">Se creo inicialmente porque no encontraba una libreria para generar un pdf bastante grande
+                    fue avanzando hasta tener casi las mismas funcionalidades de ilovepdf</p>
+                <p>Stack Usado:</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">React (Se uso Redux y Dexie para persistencia de estado y reduccion de Consultas, muchas funcionalidades como dividir y extraer se implementaron clientside con pdflib)</li>
+                    <li class="list-group-item">API Principal (Fastify con memcached ,redis y bullmq para manejar los workers, para la generacion de los pdfs se uso Playwright</li>
+                    <li class="list-group-item">Worker 1 (Python con opencv para procesamiento de imagenes, mistral como IA de procesamiento o OCR para extraccion de data</li>
+                    <li class="list-group-item">Worker 2 (Python con libreoffice headless para conversion de pdfs y tesseract para ocr)</li>
+                    <li class="list-group-item">Infraestructura (VPS en Hetzner, se realizo el despliegue con git actions, se hizo hardening basico y se agrego tailscale para mas seguridad)</li>
+                    <li class="list-group-item">Extras ( Api Gateway en Krakend como capa de seguridad y las imagenes y archivos servidos desde CDN (bunny) conectado al bucket Blackblaze
+                        POSTHOG para metricas del usuario,DATADOG ,Sentry y Betterstack para observavilidad)</li>
+                </ul>
+                <a href="https://zyphur.me" class="btn btn-primary">Visitar</a>
+            </div>
+        </div>
+    </section>
+</div>
+    
+    

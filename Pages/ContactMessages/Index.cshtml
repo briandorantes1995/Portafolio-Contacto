@@ -1,0 +1,53 @@
+@page
+@model Portafolio.Pages.ContactMessages.IndexModel
+
+<div class="container">
+
+    <h1>Mensajes</h1>
+
+    @foreach (var message in Model.ContactMessages)
+    {
+        <div class="card mb-3">
+
+            <div class="card-body">
+
+                <h5>Nombre: @message.Name</h5>
+                <p>Correo Usuario: @message.Email</p>
+                <p>Empresa: @message.CompanyName</p>
+                <p>Presupuesto: $@message.Budget</p>
+                <p>Motivo: @message.Message</p>
+                <small>Fecha Creacion: @message.CreatedAt</small>
+                <div class="actions">
+                    @if (message.Reviewed)
+                    {
+                        <span class="badge bg-warning">En Revision</span>
+                    }
+                    else
+                    {
+                        <div class="col-sm">
+                            <form method="post"
+                                  asp-page-handler="Review"
+                                  asp-route-id="@message.Id">
+                                <button type="submit" class="btn btn-warning" onclick="return confirm('¿Marcar como Revisado?')">Marcar como Revisado</button>
+                            </form>
+                        </div>
+                    }
+                    @if (message.Accepted)
+                    {
+                        <span class="badge bg-success">Aceptado</span>
+                    }
+                    else
+                    {
+                        <div class="col-sm">
+                            <form method="post"
+                                  asp-page-handler="Accept"
+                                  asp-route-id="@message.Id">
+                                <button type="submit" class="btn btn-success" onclick="return confirm('¿Aceptar Trabajo?')">Aceptar</button>
+                            </form>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

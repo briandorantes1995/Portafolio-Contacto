@@ -1,0 +1,148 @@
+@page "{id:int}"
+@model Portafolio.Pages.Jobs.Details
+<div class="container">
+    
+    <h1>Proyecto</h1>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5>Proyecto/Empresa: @Model.JobDetails.Title</h5>
+            <p>Descripcion: @Model.JobDetails.Description</p>
+            <p>Estatus: @Model.JobDetails.Status</p>
+            <p>Subestatus: @Model.JobDetails.SubStatus</p>
+            <p>Presupuesto: $@Model.JobDetails.Budget</p>
+            <p><small>Fecha Inicio: @Model.JobDetails.StartDate</small></p>
+            <p><small>Fecha Estimada de Finalizacion: @Model.JobDetails.EndDate</small></p>
+        </div>
+        <div class="actions">
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="col-sm">
+                    <a class="btn btn-warning" asp-page="/Jobs/Update" asp-route-id="@Model.JobDetails.Id" role="button">Actualizar/Editar</a>
+                </div>
+            }
+            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#uploadModal">Subir Evidencia/Entregable</button>
+        </div>
+    </div>
+    @if (Model.History.Count>0)
+    {
+        <h2>Historial</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Editor</th>
+                <th scope="col">Antiguo Estatus</th>
+                <th scope="col">Nuevo Estatus</th>
+                <th scope="col">Antiguo Subestatus</th>
+                <th scope="col">Nuevo Subestatus</th>
+                <th scope="col">Fecha</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var h in Model.History)
+            {
+                <tr>
+                    <td>@h.Changer.Name</td>
+                    <td>@h.OldStatus</td>
+                    <td>@h.NewStatus</td>
+                    <td>@h.OldSubStatus</td>
+                    <td>@h.NewSubStatus</td>
+                    <td>@h.CreatedAt</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h2>No hay historial aun</h2>
+    }
+    
+    @if (Model.Files.Count > 0)
+    {
+        <h2>Archivos</h2>
+
+        <div class="table-responsive">
+
+            <table class="table">
+
+                <thead>
+                <tr>
+                    <th>Subido por</th>
+                    <th>Archivo</th>
+                    <th>Tamaño</th>
+                    <th>Fecha</th>
+                    <th>Accion</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                @foreach (var f in Model.Files)
+                {
+                    <tr>
+                        <td>@f.Uploader.Name</td>
+                        <td>@f.FileName</td>
+                        <td>@(f.FileSize / 1024) KB</td>
+                        <td>@f.CreatedAt</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" asp-page-handler="Download" asp-route-fileId="@f.Id">Ver/Descargar</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <h2>No hay archivos aun</h2>
+    }
+    @if (Model.Messages.Count > 0)
+    {
+        <h2>Mensajes</h2>
+
+        @foreach (var m in Model.Messages)
+        {
+            <div class="card mb-2">
+                <div class="card-body">
+                    <strong>@m.Sender.Name</strong>
+                    <small>@m.CreatedAt</small>
+
+                    <p>@m.Content</p>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h2>No hay mensajes aun</h2>
+    }
+    <h2>Anadir Nuevo Mensaje/Peticion</h2>
+    <form method="post" asp-page-handler="SendMessage">
+        <textarea asp-for="NewMessage" class="form-control"></textarea>
+        <button class="btn btn-primary mt-2">Enviar</button>
+    </form>
+</div>
+
+
+<div class="modal fade" id="uploadModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Subir archivo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <form method="post" enctype="multipart/form-data" asp-page-handler="UploadFile">
+
+                    <input asp-for="Upload" type="file" class="form-control"/>
+
+                    <button type="submit" class="btn btn-primary mt-3">Subir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

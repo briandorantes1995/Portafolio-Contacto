@@ -1,0 +1,62 @@
+@page "{id:int}"
+@model Portafolio.Pages.UsersPages.DetailsModel
+@using System.Security.Claims
+
+@{
+    var isAdmin = User.IsInRole("Admin");
+}
+
+<div class="user-detail-header">
+    <img src="@(string.IsNullOrEmpty(Model.UserDetail.AvatarUrl) ? "/assets/no-image.png" : Model.UserDetail.AvatarUrl)"
+         class="user-detail-avatar" alt="Avatar" />
+    <div>
+        <h1 class="user-detail-name">@Model.UserDetail.Name</h1>
+        @if (!string.IsNullOrEmpty(Model.UserDetail.CompanyName))
+        {
+            <p class="user-detail-company">@Model.UserDetail.CompanyName</p>
+        }
+        <span class="badge @(Model.UserDetail.Role == Portafolio.Models.Roles.Admin ? "badge-admin" : "badge-user")">
+            @Model.UserDetail.Role
+        </span>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h2>Información de contacto</h2>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <span class="detail-label">Email</span>
+                <span>@Model.UserDetail.Email</span>
+            </li>
+            @if (!string.IsNullOrEmpty(Model.UserDetail.PhoneNumber))
+            {
+                <li class="list-group-item">
+                    <span class="detail-label">Teléfono</span>
+                    <span>@Model.UserDetail.PhoneNumber</span>
+                </li>
+            }
+            <li class="list-group-item">
+                <span class="detail-label">Preferencia de contacto</span>
+                <span>@Model.UserDetail.ContactPreference</span>
+            </li>
+            <li class="list-group-item">
+                <span class="detail-label">Onboarding</span>
+                <span>@(Model.UserDetail.OnboardingComplete ? "Completado" : "Pendiente")</span>
+            </li>
+            <li class="list-group-item">
+                <span class="detail-label">Miembro desde</span>
+                <span>@Model.UserDetail.CreatedAt.ToString("dd MMM yyyy")</span>
+            </li>
+        </ul>
+    </div>
+    <div class="actions">
+        <a class="btn btn-warning" asp-page="/UsersPages/Update" asp-route-id="@Model.UserDetail.Id">Editar perfil</a>
+        @if (isAdmin)
+        {
+            <form method="post" asp-page-handler="Delete" asp-route-id="@Model.UserDetail.Id">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Eliminar usuario?')">Eliminar</button>
+            </form>
+        }
+    </div>
+</div>

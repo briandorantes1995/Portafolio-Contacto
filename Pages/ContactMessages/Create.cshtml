@@ -1,0 +1,39 @@
+@page
+@model Portafolio.Pages.ContactMessages.CreateModel
+
+<div class="container">
+
+    <p>Formulario de Contacto</p>
+
+    <form method="post">
+
+        <div class="form-group">
+            <label asp-for="ContactMessage.Name">Nombre</label>
+            <input asp-for="ContactMessage.Name" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ContactMessage.CompanyName">Empresa</label>
+            <input asp-for="ContactMessage.CompanyName" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ContactMessage.Email">Correo</label>
+            <input asp-for="ContactMessage.Email" class="form-control" />
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="ContactMessage.Budget">Presupuesto</label>
+            <input asp-for="ContactMessage.Budget" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ContactMessage.Message">Detalle del Proyecto o Solicitud</label>
+            <textarea asp-for="ContactMessage.Message" class="form-control"></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Enviar</button>
+
+    </form>
+
+</div>

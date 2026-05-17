@@ -1,0 +1,23 @@
+@page
+@model Portafolio.Pages.Jobs.Index
+
+<div class="container">
+
+    <h1>Proyectos</h1>
+
+    @foreach (var job in Model.Jobs)
+    {
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>Proyecto/Empresa: @job.Title</h5>
+                <p>Descripcion: @job.Description</p>
+                <p>Estatus: @job.Status</p>
+                <p>Subestatus: @job.SubStatus</p>
+                <p>Presupuesto: $@job.Budget</p>
+                <small>Fecha Inicio: @job.StartDate</small>
+                <small>Fecha Estimada de Finalizacion: @job.EndDate</small>
+            </div>
+            <a class="btn btn-info" asp-page="/Jobs/Details"  asp-route-id="@job.Id" role="button">Ver Detalles</a>
+        </div>
+    }
+</div>

@@ -1,0 +1,47 @@
+@page
+@model Portafolio.Pages.Auth.Login
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html class="h-full bg-gray-900" lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Portafolio</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="h-full">
+<div class="login-container">
+
+    <div class="login-card">
+
+        <div class="login-header">
+            <div class="login-logo">
+                <span>&lt;/&gt;</span>
+            </div>
+
+            <h1>Bienvenido</h1>
+            <p>Inicia sesión para continuar</p>
+        </div>
+
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Email">Correo</label>
+                <input asp-for="Email" type="email" class="form-control" placeholder="correo@empresa.com" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password">Contraseña</label>
+                <input asp-for="Password"  type="password" class="form-control" placeholder="••••••••" />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>

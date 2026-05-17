@@ -1,0 +1,36 @@
+@page
+@model Portafolio.Pages.UsersPages.IndexModel
+
+<div class="container">
+
+    <h1>Usuarios</h1>
+    @if (Model.AppUsers.Count == 0)
+    {
+        
+        <h5>No hay usuarios aun</h5>
+        
+    }
+    @foreach (var user in Model.AppUsers)
+    {
+        <div class="card mb-3">
+
+            <div class="card-body">
+
+                <h5>@user.Name</h5>
+
+                <p>@user.Email</p>
+                
+                <p>@user.PhoneNumber</p>
+
+                <p>@user.CompanyName</p>
+                
+                <a class="btn btn-info" asp-page="/UsersPages/Details"  asp-route-id="@user.Id" role="button">Ver Detalles</a>
+            </div>
+            <div>
+            </div>
+
+        </div>
+    }
+    <a class="btn btn-primary" asp-page="/UsersPages/Create" role="button">Crear Nuevo Usuario</a>
+
+</div>
