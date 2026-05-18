@@ -1,0 +1,34 @@
+---
+- name: Configuracion inicial VM
+  hosts: servers
+  become: true
+
+  tasks:
+
+    - name: Actualizar paquetes
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Instalar dependencias
+      apt:
+        name:
+          - curl
+          - git
+          - unzip
+          - fail2ban
+          - ca-certificates
+        state: present
+        
+    - name: Instalar Docker
+      shell: curl -fsSL https://get.docker.com | sh
+
+    - name: Agregar usuario a docker
+      user:
+          name: brian
+          groups: docker
+          append: true
+          
+    - name: Instalar Tailscale
+      shell: curl -fsSL https://tailscale.com/install.sh | sh
+      
