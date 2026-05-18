@@ -96,7 +96,7 @@
 
     - name: Copiar Caddyfile
       copy:
-        src: files/Caddyfile
+        src: files/CaddyFile
         dest: /home/brian/app/Caddyfile
         owner: brian
         group: brian
@@ -106,7 +106,7 @@
       shell: >
          doppler run --
          docker compose -f compose.yaml pull && 
-         doppler run--
+         doppler run --
          docker compose -f compose.yaml up -d
       args:
         chdir: /home/brian/app    
