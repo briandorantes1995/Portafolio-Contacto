@@ -5,6 +5,9 @@
   
   vars:
    tailscale_auth_key: "{{ lookup('env','TAILSCALE_AUTH_KEY') }}"
+   
+   vars:
+     doppler_token: "{{ lookup('env','DOPPLER_TOKEN') }}"
   
   tasks:
     - name: Actualizar paquetes
@@ -66,11 +69,16 @@
       shell: >
         tailscale up
         --auth-key={{ tailscale_auth_key }} 
+      args:
+        creates: /var/lib/tailscale/tailscaled.state  
       
     - name: Instalar Doppler
       shell: (curl -Ls --tlsv1.2 --proto "=https" --retry 3 https://cli.doppler.com/install.sh || wget -t 3 -qO- https://cli.doppler.com/install.sh) |  sh
       args:
         creates: /usr/bin/doppler
+        
+    - name: Configurar Doppler
+      shell: doppler configure set token {{ doppler_token }}
       
     - name: Crear carpeta app
       file:
@@ -80,10 +88,10 @@
         group: brian
         mode: '0755'
 
-    - name: Copiar docker compose
+    - name: Copiar Docker Compose
       copy:
-        src: files/compose.yml
-        dest: /home/brian/app/compose.yml
+        src: files/compose.yaml
+        dest: /home/brian/app/compose.yaml
         owner: brian
         group: brian
         mode: '0644'
@@ -95,3 +103,12 @@
         owner: brian
         group: brian
         mode: '0644'  
+        
+    - name: Levantar y Actualizar Contenedores
+      shell: >
+         doppler run --
+         docker compose -f compose.yaml pull && 
+         doppler run--
+         docker compose -f compose.yaml up -d
+      args:
+        chdir: /home/brian/app    

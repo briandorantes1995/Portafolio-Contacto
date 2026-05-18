@@ -49,3 +49,23 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      
+      -name: Instalar Ansible
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible
+
+      - name: Crear llave SSH temporal
+         run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Ejecutar Ansible
+        env:
+          TAILSCALE_AUTH_KEY: ${{ secrets.TAILSCALE_AUTH_KEY }}
+          DOPPLER_TOKEN: ${{ secrets.DOPPLER_AUTH_TOKEN }}
+        run: |
+          cd Ansible
+          ansible-playbook playbook.yml \
+          --private-key ~/.ssh/id_rs    
