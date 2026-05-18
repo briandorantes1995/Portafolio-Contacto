@@ -50,13 +50,13 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
       
-      -name: Instalar Ansible
+      - name: Instalar Ansible
         run: |
           sudo apt-get update
           sudo apt-get install -y ansible
 
       - name: Crear llave SSH temporal
-         run: |
+        run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
@@ -68,4 +68,4 @@ jobs:
         run: |
           cd Ansible
           ansible-playbook playbook.yml \
-          --private-key ~/.ssh/id_rs    
+          --private-key ~/.ssh/id_rsa    
