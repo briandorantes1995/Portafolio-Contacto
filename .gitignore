@@ -9,3 +9,13 @@ obj/
 *.suo
 keys/*
 !keys/*.pub
+
+# Terraform
+
+**/.terraform/*
+
+*.tfstate
+
+*.tfstate.*
+
+.terraform.lock.hcl
