@@ -1,4 +1,4 @@
-document.zyphur.me {
+portafolio.blyndthor.com {
     encode zstd gzip
     reverse_proxy portafolio:8080
 }

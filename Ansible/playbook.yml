@@ -2,13 +2,32 @@
 - name: Configuracion inicial VM
   hosts: servers
   become: true
-
+  
+  vars:
+   tailscale_auth_key: "{{ lookup('env','TAILSCALE_AUTH_KEY') }}"
+  
   tasks:
-
     - name: Actualizar paquetes
       apt:
         update_cache: yes
         upgrade: dist
+        
+    - name: Deshabilitar login SSH root
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?PermitRootLogin'
+        line: 'PermitRootLogin no'
+
+    - name: Deshabilitar login por contraseña
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?PasswordAuthentication'
+        line: 'PasswordAuthentication no'
+
+    - name: Reiniciar SSH
+      service:
+        name: ssh
+        state: restarted    
 
     - name: Instalar dependencias
       apt:
@@ -18,12 +37,21 @@
           - unzip
           - fail2ban
           - ca-certificates
+          - gnupg
         state: present
+        
+    - name: Habilitar fail2ban
+      service:
+        name: fail2ban
+        enabled: true
+        state: started
         
     - name: Instalar Docker
       shell: curl -fsSL https://get.docker.com | sh
+      args:
+        creates: /usr/bin/docker
 
-    - name: Agregar usuario a docker
+    - name: Agregar usuario a Docker
       user:
           name: brian
           groups: docker
@@ -31,4 +59,39 @@
           
     - name: Instalar Tailscale
       shell: curl -fsSL https://tailscale.com/install.sh | sh
+      args:
+        creates: /usr/bin/tailscale
+
+    - name: Unir VM a Tailscale
+      shell: >
+        tailscale up
+        --auth-key={{ tailscale_auth_key }} 
       
+    - name: Instalar Doppler
+      shell: (curl -Ls --tlsv1.2 --proto "=https" --retry 3 https://cli.doppler.com/install.sh || wget -t 3 -qO- https://cli.doppler.com/install.sh) |  sh
+      args:
+        creates: /usr/bin/doppler
+      
+    - name: Crear carpeta app
+      file:
+        path: /home/brian/app
+        state: directory
+        owner: brian
+        group: brian
+        mode: '0755'
+
+    - name: Copiar docker compose
+      copy:
+        src: files/compose.yml
+        dest: /home/brian/app/compose.yml
+        owner: brian
+        group: brian
+        mode: '0644'
+
+    - name: Copiar Caddyfile
+      copy:
+        src: files/Caddyfile
+        dest: /home/brian/app/Caddyfile
+        owner: brian
+        group: brian
+        mode: '0644'  
