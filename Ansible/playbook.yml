@@ -5,9 +5,7 @@
   
   vars:
    tailscale_auth_key: "{{ lookup('env','TAILSCALE_AUTH_KEY') }}"
-   
-   vars:
-     doppler_token: "{{ lookup('env','DOPPLER_AUTH_TOKEN') }}"
+   doppler_token: "{{ lookup('env','DOPPLER_AUTH_TOKEN') }}"
   
   tasks:
     - name: Actualizar paquetes
