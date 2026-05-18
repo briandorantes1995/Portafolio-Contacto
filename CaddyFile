@@ -1,20 +1,4 @@
 document.zyphur.me {
     encode zstd gzip
-    reverse_proxy documents-pdf:8000 {
-        transport http {
-            dial_timeout 30s
-            response_header_timeout 600s
-        }
-
-        header_up Host {host}
-        header_up X-Real-IP {remote_host}
-        header_up X-Forwarded-For {remote_host}
-        header_up X-Forwarded-Proto {scheme}
-        header_up Connection "keep-alive"
-        header_up Keep-Alive "timeout=600, max=1000"
-
-        # CRITICAL: Forward authentication header for internal service calls
-        header_up X-Internal-Key {http.request.header.X-Internal-Key}
-        header_up Authorization {http.request.header.Authorization}
-    }
+    reverse_proxy portafolio:8080
 }
