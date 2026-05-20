@@ -105,6 +105,8 @@
         
     - name: Levantar y Actualizar Contenedores
       become_user: brian
+      environment:
+        DOPPLER_TOKEN: "{{ doppler_token }}"
       shell: >
          doppler run --
          docker compose -f compose.yaml pull && 
@@ -112,3 +114,13 @@
          docker compose -f compose.yaml up -d
       args:
         chdir: /home/brian/app    
+        
+    - name: Debug Doppler
+      become_user: brian
+      environment:
+        DOPPLER_TOKEN: "{{ doppler_token }}"
+      shell: doppler run -- printenv | grep CONNECTION
+      register: doppler_test
+
+    - debug:
+        var: doppler_test.stdout_lines    
