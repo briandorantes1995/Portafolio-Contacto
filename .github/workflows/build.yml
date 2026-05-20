@@ -3,6 +3,8 @@ name: Build Docker Image
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'Infrastructure/**'
 
 permissions:
   contents: read
