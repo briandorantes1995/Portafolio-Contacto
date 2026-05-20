@@ -6,6 +6,12 @@ services:
     image: ghcr.io/briandorantes1995/portafolio-contacto:latest
     container_name: portafolio
     restart: always
+    environment:
+      CONNECTIONSTRINGS__AZURE_SQL_CONNECTIONSTRING: ${CONNECTIONSTRINGS__AZURE_SQL_CONNECTIONSTRING}
+      AZUREEMAIL__CONNECTIONSTRING: ${AZUREEMAIL__CONNECTIONSTRING}
+      AZUREBLOB__CONNECTIONSTRING: ${AZUREBLOB__CONNECTIONSTRING}
+      APP__BASEURL: ${APP__BASEURL}
+      
     networks:
       - internal
 
