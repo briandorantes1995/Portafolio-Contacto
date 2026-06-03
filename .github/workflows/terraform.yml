@@ -3,9 +3,8 @@ name: Terraform
 on:
   push:
     branches: [main]
-
     paths:
-      - 'Infrastructure/**'
+      - 'Infraestructure/**'
 
 jobs:
   terraform:
@@ -13,8 +12,14 @@ jobs:
 
     defaults:
       run:
-        working-directory: Infrastructure
-
+        working-directory: Infraestructure
+    env:
+      TF_IN_AUTOMATION: "true"
+      TF_VAR_hcloud_token: ${{ secrets.hcloud_token }}
+      TF_VAR_hcp_client_id: ${{ secrets.HCP_CLIENT_ID }}
+      TF_VAR_hcp_client_secret: ${{ secrets.HCP_CLIENT_SECRET }}
+      TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -30,18 +35,12 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan
-        env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-          TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
-        env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-          TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+
+      - name: Cache Ansible Inventory
+        uses: actions/cache/save@v4
+        with:
+          path: Ansible/inventory.ini
+          key: ansible-inventory-cache-${{ github.sha }}
