@@ -37,7 +37,7 @@
     - name: Levantar y Actualizar Contenedores
       become_user: brian
       environment:
-        DOPPLER_TOKEN: "{{ doppler_token }}"
+        DOPPLER_AUTH_TOKEN: "{{ doppler_token }}"
       shell: >
         doppler run --
         docker compose  pull && 
