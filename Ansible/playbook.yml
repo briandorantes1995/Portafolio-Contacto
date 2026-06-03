@@ -20,7 +20,7 @@
 
     - name: Copiar Docker Compose
       copy:
-        src: files/docker-compose.yml
+        src: docker-compose.yml
         dest: /home/brian/app/docker-compose.yml
         owner: brian
         group: brian
@@ -28,7 +28,7 @@
 
     - name: Copiar Caddyfile
       copy:
-        src: files/Caddyfile
+        src: Caddyfile
         dest: /home/brian/app/Caddyfile
         owner: brian
         group: brian
