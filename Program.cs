@@ -26,7 +26,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 var app = builder.Build();
-
+//Inicio
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
