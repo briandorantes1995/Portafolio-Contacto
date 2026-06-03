@@ -51,7 +51,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      
+
       - name: Instalar Ansible
         run: |
           sudo apt-get update
@@ -64,14 +64,12 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
 
       - name: Restore Ansible Inventory from Cache
-          uses: actions/cache/restore@v4
-          with:
-            path: Ansible/inventory.ini
-            # Buscamos primero si existe para el commit actual (por si acaso)
-            key: ansible-inventory-cache-${{ github.sha }}
-            # Si no existe, recupera el más reciente que coincida con el prefijo
-            restore-keys: |
-              ansible-inventory-cache-
+        uses: actions/cache/restore@v4
+        with:
+          path: Ansible/inventory.ini
+          key: ansible-inventory-cache-${{ github.sha }}
+          restore-keys: |
+            ansible-inventory-cache-
 
       # Verificación de seguridad por si acaso el caché llegara a estar vacío
       - name: Check Inventory Existence
@@ -79,7 +77,7 @@ jobs:
           if [ ! -f Ansible/inventory.ini ]; then
             echo "Error: El archivo Ansible/inventory.ini no está en el caché. Ejecuta el pipeline de Terraform primero."
             exit 1
-          fi    
+          fi
 
       - name: Ejecutar Ansible
         env:
@@ -91,4 +89,4 @@ jobs:
           -i inventory.ini \
           --private-key ~/.ssh/id_rsa \
           -e "doppler_token=${DOPPLER_AUTH_TOKEN}" \
-          -e "tailscale_auth_key=${TAILSCALE_AUTH_KEY}"     
+          -e "tailscale_auth_key=${TAILSCALE_AUTH_KEY}" 
