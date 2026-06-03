@@ -12,7 +12,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: Infraestructure
+        working-directory: Infrastructure
     env:
       TF_IN_AUTOMATION: "true"
       TF_VAR_hcloud_token: ${{ secrets.hcloud_token }}
