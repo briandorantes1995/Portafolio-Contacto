@@ -39,10 +39,7 @@
       environment:
         DOPPLER_AUTH_TOKEN: "{{ doppler_token }}"
       shell: >
-        doppler run --
-        docker compose  pull && 
-        doppler run --
-        docker compose  up -d --force-recreate
+        doppler run -- sh -c "docker compose pull && docker compose up -d --force-recreate"
       args:
         chdir: /home/brian/app
   
