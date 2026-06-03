@@ -25,7 +25,12 @@
         owner: brian
         group: brian
         mode: '0644'
-
+        
+    - name: Remover Caddyfile corrupto si es un directorio
+      file:
+        path: /home/brian/app/Caddyfile
+        state: absent
+      
     - name: Copiar Caddyfile
       copy:
         src: Caddyfile
