@@ -105,7 +105,7 @@ output "server_ip" {
   value = hcloud_server.node1.ipv4_address
 }
 
-# Create Ansible inventory.ini for running test 2
+# Create Ansible inventory.ini for running test
 resource "local_file" "deploy_inventory" {
   content = <<EOF
 [servers]
