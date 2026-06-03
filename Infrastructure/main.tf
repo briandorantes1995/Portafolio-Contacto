@@ -109,7 +109,7 @@ output "server_ip" {
 resource "local_file" "deploy_inventory" {
   content = <<EOF
 [servers]
-ClamAvScanner ansible_host=${hcloud_server.node1.ipv4_address} ansible_user=brian
+Portafolio ansible_host=${hcloud_server.node1.ipv4_address} ansible_user=brian
 EOF
 
   filename = "../Ansible/inventory.ini"
