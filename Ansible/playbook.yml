@@ -28,8 +28,8 @@
 
     - name: Copiar Caddyfile
       copy:
-        src: CaddyFile
-        dest: /home/brian/app/CaddyFile
+        src: Caddyfile
+        dest: /home/brian/app/Caddyfile
         owner: brian
         group: brian
         mode: '0644'
