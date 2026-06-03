@@ -64,10 +64,14 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
 
       - name: Restore Ansible Inventory from Cache
-        uses: actions/cache/restore@v4
-        with:
-          path: Ansible/inventory.ini
-          key: ansible-inventory-cache-
+          uses: actions/cache/restore@v4
+          with:
+            path: Ansible/inventory.ini
+            # Buscamos primero si existe para el commit actual (por si acaso)
+            key: ansible-inventory-cache-${{ github.sha }}
+            # Si no existe, recupera el más reciente que coincida con el prefijo
+            restore-keys: |
+              ansible-inventory-cache-
 
       # Verificación de seguridad por si acaso el caché llegara a estar vacío
       - name: Check Inventory Existence
