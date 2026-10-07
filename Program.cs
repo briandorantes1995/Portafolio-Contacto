@@ -5,12 +5,12 @@ using Portafolio.Services.Mails;
 using Portafolio.Services.Auth;
 using Portafolio.Services.Storage;
 
+DotNetEnv.Env.Load();
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
+var connectionString = builder.Configuration["DB_URL"]
+    ?? throw new InvalidOperationException("La variable de entorno DB_URL no está definida.");
 
-builder.Services.AddDbContext<UserDb>(options =>
-    options.UseSqlServer(connectionString));
-
+builder.Services.AddDbContext<UserDb>(options => options.UseNpgsql(connectionString));
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IEmailService, AzureEmailService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
@@ -26,7 +26,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 var app = builder.Build();
-//Inicio
+
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();

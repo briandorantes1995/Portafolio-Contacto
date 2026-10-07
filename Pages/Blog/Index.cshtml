@@ -1,0 +1,48 @@
+@page
+@model Portafolio.Pages.Blog.Index
+
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Blog</h1>
+        @if (User.IsInRole("Admin"))
+        {
+            <a class="btn btn-primary" asp-page="/Blog/Create" role="button">Nuevo Post</a>
+        }
+    </div>
+
+    @if (Model.Posts.Count == 0)
+    {
+        <p>No hay posts todavia.</p>
+    }
+
+    @foreach (var post in Model.Posts)
+    {
+        <div class="card mb-3">
+            @if (!string.IsNullOrEmpty(post.CoverImageUrl))
+            {
+                <img src="@post.CoverImageUrl" class="card-img-top" alt="@post.Title" />
+            }
+            <div class="card-body">
+                <h5>
+                    @post.Title
+                    @if (post.PublishedAt == null)
+                    {
+                        <span class="badge bg-secondary">Borrador</span>
+                    }
+                    else if (!post.IsPublished)
+                    {
+                        <span class="badge bg-warning text-dark">Programado</span>
+                    }
+                </h5>
+                <p>@post.Summary</p>
+                <small>Por @post.Author.Name - @((post.PublishedAt ?? post.CreatedAt).ToString("dd/MM/yyyy"))</small>
+            </div>
+            <a class="btn btn-info" asp-page="/Blog/Details" asp-route-id="@post.Id" role="button">Leer</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a class="btn btn-secondary" asp-page="/Blog/Edit" asp-route-id="@post.Id" role="button">Editar</a>
+            }
+        </div>
+    }
+</div>

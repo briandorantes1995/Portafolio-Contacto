@@ -15,6 +15,7 @@ public class UserDb : DbContext
     public DbSet<JobHistory> JobHistories => Set<JobHistory>();
     public DbSet<Message> Messages => Set<Message>();
     public DbSet<JobFile>JobFiles => Set<JobFile>();
+    public DbSet<BlogPost> BlogPosts => Set<BlogPost>();
     
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,10 +30,6 @@ public class UserDb : DbContext
             .Property(j => j.Status)
             .HasDefaultValue(Statuses.Created);
 
-        modelBuilder.Entity<Job>()
-            .Property(j => j.SubStatus)
-            .HasDefaultValue(SubStatuses.WaitingForClient);
-        
         modelBuilder.Entity<Job>()
             .Property(j => j.Budget)
             .HasPrecision(18, 2);
@@ -57,6 +54,12 @@ public class UserDb : DbContext
             .HasOne(jh => jh.Changer)
             .WithMany(u => u.JobHistories)
             .HasForeignKey(jh => jh.ChangerId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<BlogPost>()
+            .HasOne(b => b.Author)
+            .WithMany(u => u.BlogPosts)
+            .HasForeignKey(b => b.AuthorId)
             .OnDelete(DeleteBehavior.NoAction);
     }
 }

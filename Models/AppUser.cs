@@ -49,4 +49,5 @@ public class AppUser
     public ICollection<JobFile> JobFiles { get; set; } = new List<JobFile>();
     public ICollection<JobHistory> JobHistories { get; set; } = new List<JobHistory>();
     public ICollection<InviteToken> InviteTokens { get; set; } = new List<InviteToken>();
+    public ICollection<BlogPost> BlogPosts { get; set; } = new List<BlogPost>();
 }

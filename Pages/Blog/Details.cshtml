@@ -1,0 +1,31 @@
+@page "{id:int}"
+@model Portafolio.Pages.Blog.Details
+
+<div class="container">
+
+    <a asp-page="/Blog/Index">&larr; Volver al blog</a>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <a class="btn btn-secondary btn-sm float-end" asp-page="/Blog/Edit" asp-route-id="@Model.Post.Id" role="button">Editar</a>
+    }
+
+    <h1 class="mt-3">@Model.Post.Title</h1>
+    <small>Por @Model.Post.Author.Name - @((Model.Post.PublishedAt ?? Model.Post.CreatedAt).ToString("dd/MM/yyyy"))</small>
+
+    @if (Model.Post.PublishedAt == null)
+    {
+        <p><span class="badge bg-secondary">Borrador</span></p>
+    }
+    else if (!Model.Post.IsPublished)
+    {
+        <p><span class="badge bg-warning text-dark">Programado</span></p>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.Post.CoverImageUrl))
+    {
+        <img src="@Model.Post.CoverImageUrl" class="img-fluid my-3" alt="@Model.Post.Title" />
+    }
+
+    <div class="mt-3" style="white-space: pre-line;">@Model.Post.Content</div>
+</div>
